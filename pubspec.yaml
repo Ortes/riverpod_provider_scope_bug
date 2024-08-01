@@ -1,0 +1,34 @@
+name: riverpod_providerscope_bug
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_hooks: ^0.20.4
+  hooks_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+  riverpod_lint: ^2.3.10
+
+  # Code generation
+  build_runner: ^2.4.7
+  riverpod_generator: ^2.4.0
+  freezed: ^2.5.2
+  json_serializable: ^6.8.0
+
+flutter:
+
+  uses-material-design: true
