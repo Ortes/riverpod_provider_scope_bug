@@ -2,18 +2,20 @@ import 'dart:async';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_providerscope_bug/utils.dart';
 
 part 'providers.freezed.dart';
-
 part 'providers.g.dart';
 
 const hitPerPage = 20;
 
-
-@Riverpod(dependencies: [])
+@riverpod
 class SearchTextState extends _$SearchTextState {
   @override
   String build() {
+    ref.onDispose(() {
+      print('SearchTextState disposed');
+    });
     return '';
   }
 
@@ -22,11 +24,10 @@ class SearchTextState extends _$SearchTextState {
   }
 }
 
-@Riverpod(dependencies: [SearchTextState])
+@riverpod
 FutureOr<String> searchTextDebounced(SearchTextDebouncedRef ref) {
   var disposed = false;
   ref.onDispose(() {
-    print('disposed');
     disposed = true;
   });
 
@@ -35,8 +36,7 @@ FutureOr<String> searchTextDebounced(SearchTextDebouncedRef ref) {
     return '';
   }
 
-  return Future.delayed(const Duration(milliseconds: 2000)).then((_) {
-    print('debounced $disposed');
+  return Future.delayed(const Duration(milliseconds: 1000)).then((_) {
     if (disposed) {
       throw StateError('Debounced');
     }
@@ -45,153 +45,99 @@ FutureOr<String> searchTextDebounced(SearchTextDebouncedRef ref) {
   });
 }
 
-@Riverpod()
+@riverpod
 class SearchFilterManager extends _$SearchFilterManager {
   @override
-  SearchManagerState build() {
-    return const SearchManagerState();
-  }
-
-  void addFilter(AlgoliaFilter filter) {
-    final filterType = filter.filterType;
-    state = state.copyWith(filters: {
-      ...state.filters,
-      filterType: {...state.filters[filterType] ?? {}, filter},
-    });
-  }
-
-  void removeFilter(AlgoliaFilter filter) {
-    state = state.copyWith(filters: {
-      for (final entry in state.filters.entries)
-        if (entry.value.contains(filter))
-          entry.key: entry.value.where((f) => f != filter).toSet()
-        else
-          entry.key: entry.value
-    });
-  }
-
-  void toggleFilter(AlgoliaFilter filter) {
-    if (state.filters[filter.filterType]?.contains(filter) ?? false) {
-      removeFilter(filter);
-    } else {
-      addFilter(filter);
-    }
-  }
-
-  void setForFilter(AlgoliaFilterType filterType, Set<AlgoliaFilter> filters) {
-    state = state.copyWith(filters: {
-      ...state.filters,
-      filterType: filters,
-    });
-  }
-
-  void clearForFilter(AlgoliaFilterType filterType) {
-    setForFilter(filterType, {});
+  SearchFilterManagerState build() {
+    return const SearchFilterManagerState();
   }
 }
 
 @Riverpod(keepAlive: true)
 Future<SearchResponse> _algoliaSearch(
-    _AlgoliaSearchRef ref,
-    String searchText,
-    SearchManagerState searchManagerState,
-    int page,
-    String indexName,
-    ResourceType? type,
-    ) async {
-  final user = ref.watch(currentUserProvider);
-  print('searching for $searchText filters: ${searchManagerState.toFacetFilters()}');
-  final queryHits = SearchForHits(
-    indexName: indexName,
-    query: searchText,
-    attributesToRetrieve: ['objectID'],
-    facets: ['*'],
-    facetFilters: [
-      ...searchManagerState.toFacetFilters(),
-      if (type != null) ['_type:${type.sanityKey}'],
-    ],
-    hitsPerPage: hitPerPage,
-    page: page,
-    optionalFilters: user.hasPremiumPlan() ? null : ['openTo:all'],
-  );
-
-  return await algoliaClient.searchIndex(request: queryHits);
+  _AlgoliaSearchRef ref,
+  String searchText,
+  SearchFilterManagerState searchFilterManagerState,
+  int page,
+  String type,
+) async {
+  print('searching for $searchText filters: $searchFilterManagerState');
+  await Future.delayed(const Duration(milliseconds: 200));
+  return SearchResponse(["42"]);
 }
 
-@Riverpod()
+@riverpod
 Future<SearchResponse> _searchResponsePage(
-    _SearchResponsePageRef ref,
-    int page,
-    String indexName,
-    ResourceType? type,
-    ) async {
+  _SearchResponsePageRef ref,
+  int page,
+  String type,
+) async {
   final searchText = await ref.watch(searchTextDebouncedProvider.future);
   final searchManagerState = ref.watch(searchFilterManagerProvider);
-  return await ref.watch(_algoliaSearchProvider(searchText, searchManagerState, page, indexName, type).future);
+  return await ref.watch(_algoliaSearchProvider(searchText, searchManagerState, page, type).future);
 }
 
-@Riverpod()
+@riverpod
 Future<String> searchResultAt(
-    SearchResultAtRef ref,
-    int index,
-    String indexName,
-    ResourceType? type,
-    ) async {
-  final searchResponse = await ref.watch(_searchResponsePageProvider(index ~/ hitPerPage, indexName, type).future);
-  return searchResponse.hits[index % hitPerPage].objectID;
+  SearchResultAtRef ref,
+  int index,
+  String type,
+) async {
+  final searchResponse = await ref.watch(_searchResponsePageProvider(index ~/ hitPerPage, type).future);
+  return searchResponse.hits[index % hitPerPage];
 }
 
-@Riverpod()
-Future<int> searchResultFacetCount(
-    SearchResultFacetCountRef ref,
-    AlgoliaFilter filter,
-    String indexName,
-    ResourceType? type,
-    ) async {
-  final searchResponse = await ref.watch(_searchResponsePageProvider(0, indexName, type).future);
-  final facetMap = searchResponse.facets![filter.filterType.algoliaKey]!;
-  for (final facet in facetMap.entries) {
-    if (facet.key == filter.id) {
-      return facet.value;
-    }
-  }
-  return 0;
-}
-
-@Riverpod()
-FutureOr<int> searchResultCount(
-    SearchResultCountRef ref,
-    String indexName,
-    ResourceType? type,
-    ) async {
-  final searchResponse = await ref.watch(_searchResponsePageProvider(0, indexName, type).future);
+@riverpod
+Future<int> searchResultCount(
+  SearchResultCountRef ref,
+  String type,
+) async {
+  final searchResponse = await ref.watch(_searchResponsePageProvider(0, type).future);
   return searchResponse.nbHits;
 }
 
+@Riverpod(keepAlive: true)
+Future<List<ChildItem>> getAllChildItems(GetAllChildItemsRef ref) async {
+  return [
+    ChildItem("42", "Item 42"),
+    ChildItem("43", "Item 43"),
+  ];
+}
+
+@Riverpod(dependencies: [])
+Future<List<Item>> getAllResources(GetAllResourcesRef ref) async {
+  throw UnimplementedError('Please override this provider');
+}
+
+@Riverpod(dependencies: [])
+String getResourceType(GetResourceTypeRef ref) {
+  throw UnimplementedError('Please override this provider');
+}
+
+@Riverpod(dependencies: [getResourceType, getAllResources])
+Future<Item> resourcesSearchResultAt(ResourcesSearchResultAtRef ref, int index) async {
+  final type = ref.watch(getResourceTypeProvider);
+  final id = await ref.watch(searchResultAtProvider(index, type).future);
+  final resources = await ref.watch(getAllResourcesProvider.future);
+  try {
+    return resources.firstWhere((e) => e.id == id);
+  } catch (e) {
+    throw Exception('Resource not found $id not found');
+  }
+}
+
+@Riverpod(dependencies: [getResourceType])
+Future<int> resourcesCount(ResourcesCountRef ref) async {
+  final type = ref.watch(getResourceTypeProvider);
+  return await ref.watch(searchResultCountProvider(type).future);
+}
+
+
 @freezed
-class SearchManagerState with _$SearchManagerState {
-  const SearchManagerState._();
+class SearchFilterManagerState with _$SearchFilterManagerState {
+  const SearchFilterManagerState._();
 
-  const factory SearchManagerState({
-    @Default({}) Map<AlgoliaFilterType, Set<AlgoliaFilter>> filters,
-  }) = _SearchManagerState;
-
-  List<List<String>> toFacetFilters() {
-    final algoliaFacetFilters = <List<String>>[];
-    for (final filter in AlgoliaFilterType.all) {
-      final typeFilters = filters[filter] ?? {};
-      if (typeFilters.isNotEmpty) {
-        algoliaFacetFilters.add(typeFilters.map((f) => '${filter.algoliaKey}:${f.id}').toList());
-      }
-    }
-    return algoliaFacetFilters;
-  }
-
-  bool contains(AlgoliaFilter filter) {
-    return (filters[filter.filterType] ?? {}).contains(filter);
-  }
-
-  List<AlgoliaFilter> allFilters() {
-    return filters.values.fold<List<AlgoliaFilter>>([], (a, e) => [...a, ...e]);
-  }
+  const factory SearchFilterManagerState({
+    @Default('') String filters,
+  }) = _SearchFilterManagerState;
 }

@@ -15,28 +15,28 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$SearchManagerState {
-  Map<AlgoliaFilterType, Set<AlgoliaFilter>> get filters =>
-      throw _privateConstructorUsedError;
+mixin _$SearchFilterManagerState {
+  String get filters => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SearchManagerStateCopyWith<SearchManagerState> get copyWith =>
+  $SearchFilterManagerStateCopyWith<SearchFilterManagerState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SearchManagerStateCopyWith<$Res> {
-  factory $SearchManagerStateCopyWith(
-          SearchManagerState value, $Res Function(SearchManagerState) then) =
-      _$SearchManagerStateCopyWithImpl<$Res, SearchManagerState>;
+abstract class $SearchFilterManagerStateCopyWith<$Res> {
+  factory $SearchFilterManagerStateCopyWith(SearchFilterManagerState value,
+          $Res Function(SearchFilterManagerState) then) =
+      _$SearchFilterManagerStateCopyWithImpl<$Res, SearchFilterManagerState>;
   @useResult
-  $Res call({Map<AlgoliaFilterType, Set<AlgoliaFilter>> filters});
+  $Res call({String filters});
 }
 
 /// @nodoc
-class _$SearchManagerStateCopyWithImpl<$Res, $Val extends SearchManagerState>
-    implements $SearchManagerStateCopyWith<$Res> {
-  _$SearchManagerStateCopyWithImpl(this._value, this._then);
+class _$SearchFilterManagerStateCopyWithImpl<$Res,
+        $Val extends SearchFilterManagerState>
+    implements $SearchFilterManagerStateCopyWith<$Res> {
+  _$SearchFilterManagerStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -52,28 +52,31 @@ class _$SearchManagerStateCopyWithImpl<$Res, $Val extends SearchManagerState>
       filters: null == filters
           ? _value.filters
           : filters // ignore: cast_nullable_to_non_nullable
-              as Map<AlgoliaFilterType, Set<AlgoliaFilter>>,
+              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$SearchManagerStateImplCopyWith<$Res>
-    implements $SearchManagerStateCopyWith<$Res> {
-  factory _$$SearchManagerStateImplCopyWith(_$SearchManagerStateImpl value,
-          $Res Function(_$SearchManagerStateImpl) then) =
-      __$$SearchManagerStateImplCopyWithImpl<$Res>;
+abstract class _$$SearchFilterManagerStateImplCopyWith<$Res>
+    implements $SearchFilterManagerStateCopyWith<$Res> {
+  factory _$$SearchFilterManagerStateImplCopyWith(
+          _$SearchFilterManagerStateImpl value,
+          $Res Function(_$SearchFilterManagerStateImpl) then) =
+      __$$SearchFilterManagerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<AlgoliaFilterType, Set<AlgoliaFilter>> filters});
+  $Res call({String filters});
 }
 
 /// @nodoc
-class __$$SearchManagerStateImplCopyWithImpl<$Res>
-    extends _$SearchManagerStateCopyWithImpl<$Res, _$SearchManagerStateImpl>
-    implements _$$SearchManagerStateImplCopyWith<$Res> {
-  __$$SearchManagerStateImplCopyWithImpl(_$SearchManagerStateImpl _value,
-      $Res Function(_$SearchManagerStateImpl) _then)
+class __$$SearchFilterManagerStateImplCopyWithImpl<$Res>
+    extends _$SearchFilterManagerStateCopyWithImpl<$Res,
+        _$SearchFilterManagerStateImpl>
+    implements _$$SearchFilterManagerStateImplCopyWith<$Res> {
+  __$$SearchFilterManagerStateImplCopyWithImpl(
+      _$SearchFilterManagerStateImpl _value,
+      $Res Function(_$SearchFilterManagerStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -81,67 +84,57 @@ class __$$SearchManagerStateImplCopyWithImpl<$Res>
   $Res call({
     Object? filters = null,
   }) {
-    return _then(_$SearchManagerStateImpl(
+    return _then(_$SearchFilterManagerStateImpl(
       filters: null == filters
-          ? _value._filters
+          ? _value.filters
           : filters // ignore: cast_nullable_to_non_nullable
-              as Map<AlgoliaFilterType, Set<AlgoliaFilter>>,
+              as String,
     ));
   }
 }
 
 /// @nodoc
 
-class _$SearchManagerStateImpl extends _SearchManagerState {
-  const _$SearchManagerStateImpl(
-      {final Map<AlgoliaFilterType, Set<AlgoliaFilter>> filters = const {}})
-      : _filters = filters,
-        super._();
+class _$SearchFilterManagerStateImpl extends _SearchFilterManagerState {
+  const _$SearchFilterManagerStateImpl({this.filters = ''}) : super._();
 
-  final Map<AlgoliaFilterType, Set<AlgoliaFilter>> _filters;
   @override
   @JsonKey()
-  Map<AlgoliaFilterType, Set<AlgoliaFilter>> get filters {
-    if (_filters is EqualUnmodifiableMapView) return _filters;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_filters);
-  }
+  final String filters;
 
   @override
   String toString() {
-    return 'SearchManagerState(filters: $filters)';
+    return 'SearchFilterManagerState(filters: $filters)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SearchManagerStateImpl &&
-            const DeepCollectionEquality().equals(other._filters, _filters));
+            other is _$SearchFilterManagerStateImpl &&
+            (identical(other.filters, filters) || other.filters == filters));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_filters));
+  int get hashCode => Object.hash(runtimeType, filters);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SearchManagerStateImplCopyWith<_$SearchManagerStateImpl> get copyWith =>
-      __$$SearchManagerStateImplCopyWithImpl<_$SearchManagerStateImpl>(
-          this, _$identity);
+  _$$SearchFilterManagerStateImplCopyWith<_$SearchFilterManagerStateImpl>
+      get copyWith => __$$SearchFilterManagerStateImplCopyWithImpl<
+          _$SearchFilterManagerStateImpl>(this, _$identity);
 }
 
-abstract class _SearchManagerState extends SearchManagerState {
-  const factory _SearchManagerState(
-          {final Map<AlgoliaFilterType, Set<AlgoliaFilter>> filters}) =
-      _$SearchManagerStateImpl;
-  const _SearchManagerState._() : super._();
+abstract class _SearchFilterManagerState extends SearchFilterManagerState {
+  const factory _SearchFilterManagerState({final String filters}) =
+      _$SearchFilterManagerStateImpl;
+  const _SearchFilterManagerState._() : super._();
 
   @override
-  Map<AlgoliaFilterType, Set<AlgoliaFilter>> get filters;
+  String get filters;
   @override
   @JsonKey(ignore: true)
-  _$$SearchManagerStateImplCopyWith<_$SearchManagerStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SearchFilterManagerStateImplCopyWith<_$SearchFilterManagerStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

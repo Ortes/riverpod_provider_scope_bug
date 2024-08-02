@@ -7,7 +7,7 @@ part of 'providers.dart';
 // **************************************************************************
 
 String _$searchTextDebouncedHash() =>
-    r'a86dfca17806894518070052cd8563d344b8f61e';
+    r'b6bb44cd669e4d305ff21f69cd7c73cf9d54521a';
 
 /// See also [searchTextDebounced].
 @ProviderFor(searchTextDebounced)
@@ -17,15 +17,12 @@ final searchTextDebouncedProvider = AutoDisposeFutureProvider<String>.internal(
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$searchTextDebouncedHash,
-  dependencies: <ProviderOrFamily>[searchTextStateProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    searchTextStateProvider,
-    ...?searchTextStateProvider.allTransitiveDependencies
-  },
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
 
 typedef SearchTextDebouncedRef = AutoDisposeFutureProviderRef<String>;
-String _$algoliaSearchHash() => r'3b32815c9b28df1bdca9d8af822267305eea1dc9';
+String _$algoliaSearchHash() => r'e2ad6920e90d263c2ca5344e13498592d0d1346d';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -60,16 +57,14 @@ class _AlgoliaSearchFamily extends Family<AsyncValue<SearchResponse>> {
   /// See also [_algoliaSearch].
   _AlgoliaSearchProvider call(
     String searchText,
-    SearchManagerState searchManagerState,
+    SearchFilterManagerState searchFilterManagerState,
     int page,
-    String indexName,
-    InvalidType type,
+    String type,
   ) {
     return _AlgoliaSearchProvider(
       searchText,
-      searchManagerState,
+      searchFilterManagerState,
       page,
-      indexName,
       type,
     );
   }
@@ -80,9 +75,8 @@ class _AlgoliaSearchFamily extends Family<AsyncValue<SearchResponse>> {
   ) {
     return call(
       provider.searchText,
-      provider.searchManagerState,
+      provider.searchFilterManagerState,
       provider.page,
-      provider.indexName,
       provider.type,
     );
   }
@@ -107,17 +101,15 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
   /// See also [_algoliaSearch].
   _AlgoliaSearchProvider(
     String searchText,
-    SearchManagerState searchManagerState,
+    SearchFilterManagerState searchFilterManagerState,
     int page,
-    String indexName,
-    InvalidType type,
+    String type,
   ) : this._internal(
           (ref) => _algoliaSearch(
             ref as _AlgoliaSearchRef,
             searchText,
-            searchManagerState,
+            searchFilterManagerState,
             page,
-            indexName,
             type,
           ),
           from: _algoliaSearchProvider,
@@ -130,9 +122,8 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
           allTransitiveDependencies:
               _AlgoliaSearchFamily._allTransitiveDependencies,
           searchText: searchText,
-          searchManagerState: searchManagerState,
+          searchFilterManagerState: searchFilterManagerState,
           page: page,
-          indexName: indexName,
           type: type,
         );
 
@@ -144,17 +135,15 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.searchText,
-    required this.searchManagerState,
+    required this.searchFilterManagerState,
     required this.page,
-    required this.indexName,
     required this.type,
   }) : super.internal();
 
   final String searchText;
-  final SearchManagerState searchManagerState;
+  final SearchFilterManagerState searchFilterManagerState;
   final int page;
-  final String indexName;
-  final InvalidType type;
+  final String type;
 
   @override
   Override overrideWith(
@@ -170,9 +159,8 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         searchText: searchText,
-        searchManagerState: searchManagerState,
+        searchFilterManagerState: searchFilterManagerState,
         page: page,
-        indexName: indexName,
         type: type,
       ),
     );
@@ -187,9 +175,8 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
   bool operator ==(Object other) {
     return other is _AlgoliaSearchProvider &&
         other.searchText == searchText &&
-        other.searchManagerState == searchManagerState &&
+        other.searchFilterManagerState == searchFilterManagerState &&
         other.page == page &&
-        other.indexName == indexName &&
         other.type == type;
   }
 
@@ -197,9 +184,8 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, searchText.hashCode);
-    hash = _SystemHash.combine(hash, searchManagerState.hashCode);
+    hash = _SystemHash.combine(hash, searchFilterManagerState.hashCode);
     hash = _SystemHash.combine(hash, page.hashCode);
-    hash = _SystemHash.combine(hash, indexName.hashCode);
     hash = _SystemHash.combine(hash, type.hashCode);
 
     return _SystemHash.finish(hash);
@@ -210,17 +196,14 @@ mixin _AlgoliaSearchRef on FutureProviderRef<SearchResponse> {
   /// The parameter `searchText` of this provider.
   String get searchText;
 
-  /// The parameter `searchManagerState` of this provider.
-  SearchManagerState get searchManagerState;
+  /// The parameter `searchFilterManagerState` of this provider.
+  SearchFilterManagerState get searchFilterManagerState;
 
   /// The parameter `page` of this provider.
   int get page;
 
-  /// The parameter `indexName` of this provider.
-  String get indexName;
-
   /// The parameter `type` of this provider.
-  InvalidType get type;
+  String get type;
 }
 
 class _AlgoliaSearchProviderElement
@@ -230,18 +213,16 @@ class _AlgoliaSearchProviderElement
   @override
   String get searchText => (origin as _AlgoliaSearchProvider).searchText;
   @override
-  SearchManagerState get searchManagerState =>
-      (origin as _AlgoliaSearchProvider).searchManagerState;
+  SearchFilterManagerState get searchFilterManagerState =>
+      (origin as _AlgoliaSearchProvider).searchFilterManagerState;
   @override
   int get page => (origin as _AlgoliaSearchProvider).page;
   @override
-  String get indexName => (origin as _AlgoliaSearchProvider).indexName;
-  @override
-  InvalidType get type => (origin as _AlgoliaSearchProvider).type;
+  String get type => (origin as _AlgoliaSearchProvider).type;
 }
 
 String _$searchResponsePageHash() =>
-    r'57cb15abc1ff5eb35a5fda8ef3fd68f1ea708b44';
+    r'a4310124b16b922702aa63d87136c999019397d6';
 
 /// See also [_searchResponsePage].
 @ProviderFor(_searchResponsePage)
@@ -255,12 +236,10 @@ class _SearchResponsePageFamily extends Family<AsyncValue<SearchResponse>> {
   /// See also [_searchResponsePage].
   _SearchResponsePageProvider call(
     int page,
-    String indexName,
-    InvalidType type,
+    String type,
   ) {
     return _SearchResponsePageProvider(
       page,
-      indexName,
       type,
     );
   }
@@ -271,7 +250,6 @@ class _SearchResponsePageFamily extends Family<AsyncValue<SearchResponse>> {
   ) {
     return call(
       provider.page,
-      provider.indexName,
       provider.type,
     );
   }
@@ -297,13 +275,11 @@ class _SearchResponsePageProvider
   /// See also [_searchResponsePage].
   _SearchResponsePageProvider(
     int page,
-    String indexName,
-    InvalidType type,
+    String type,
   ) : this._internal(
           (ref) => _searchResponsePage(
             ref as _SearchResponsePageRef,
             page,
-            indexName,
             type,
           ),
           from: _searchResponsePageProvider,
@@ -316,7 +292,6 @@ class _SearchResponsePageProvider
           allTransitiveDependencies:
               _SearchResponsePageFamily._allTransitiveDependencies,
           page: page,
-          indexName: indexName,
           type: type,
         );
 
@@ -328,13 +303,11 @@ class _SearchResponsePageProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.page,
-    required this.indexName,
     required this.type,
   }) : super.internal();
 
   final int page;
-  final String indexName;
-  final InvalidType type;
+  final String type;
 
   @override
   Override overrideWith(
@@ -350,7 +323,6 @@ class _SearchResponsePageProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         page: page,
-        indexName: indexName,
         type: type,
       ),
     );
@@ -365,7 +337,6 @@ class _SearchResponsePageProvider
   bool operator ==(Object other) {
     return other is _SearchResponsePageProvider &&
         other.page == page &&
-        other.indexName == indexName &&
         other.type == type;
   }
 
@@ -373,7 +344,6 @@ class _SearchResponsePageProvider
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, page.hashCode);
-    hash = _SystemHash.combine(hash, indexName.hashCode);
     hash = _SystemHash.combine(hash, type.hashCode);
 
     return _SystemHash.finish(hash);
@@ -384,11 +354,8 @@ mixin _SearchResponsePageRef on AutoDisposeFutureProviderRef<SearchResponse> {
   /// The parameter `page` of this provider.
   int get page;
 
-  /// The parameter `indexName` of this provider.
-  String get indexName;
-
   /// The parameter `type` of this provider.
-  InvalidType get type;
+  String get type;
 }
 
 class _SearchResponsePageProviderElement
@@ -399,12 +366,10 @@ class _SearchResponsePageProviderElement
   @override
   int get page => (origin as _SearchResponsePageProvider).page;
   @override
-  String get indexName => (origin as _SearchResponsePageProvider).indexName;
-  @override
-  InvalidType get type => (origin as _SearchResponsePageProvider).type;
+  String get type => (origin as _SearchResponsePageProvider).type;
 }
 
-String _$searchResultAtHash() => r'24682c25a0df45e779d3b9a30c1cd9a56dabd30b';
+String _$searchResultAtHash() => r'5a5a079c7330cd1a0e3b1e63a70b650cfd66ae39';
 
 /// See also [searchResultAt].
 @ProviderFor(searchResultAt)
@@ -418,12 +383,10 @@ class SearchResultAtFamily extends Family<AsyncValue<String>> {
   /// See also [searchResultAt].
   SearchResultAtProvider call(
     int index,
-    String indexName,
-    InvalidType type,
+    String type,
   ) {
     return SearchResultAtProvider(
       index,
-      indexName,
       type,
     );
   }
@@ -434,7 +397,6 @@ class SearchResultAtFamily extends Family<AsyncValue<String>> {
   ) {
     return call(
       provider.index,
-      provider.indexName,
       provider.type,
     );
   }
@@ -459,13 +421,11 @@ class SearchResultAtProvider extends AutoDisposeFutureProvider<String> {
   /// See also [searchResultAt].
   SearchResultAtProvider(
     int index,
-    String indexName,
-    InvalidType type,
+    String type,
   ) : this._internal(
           (ref) => searchResultAt(
             ref as SearchResultAtRef,
             index,
-            indexName,
             type,
           ),
           from: searchResultAtProvider,
@@ -478,7 +438,6 @@ class SearchResultAtProvider extends AutoDisposeFutureProvider<String> {
           allTransitiveDependencies:
               SearchResultAtFamily._allTransitiveDependencies,
           index: index,
-          indexName: indexName,
           type: type,
         );
 
@@ -490,13 +449,11 @@ class SearchResultAtProvider extends AutoDisposeFutureProvider<String> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.index,
-    required this.indexName,
     required this.type,
   }) : super.internal();
 
   final int index;
-  final String indexName;
-  final InvalidType type;
+  final String type;
 
   @override
   Override overrideWith(
@@ -512,7 +469,6 @@ class SearchResultAtProvider extends AutoDisposeFutureProvider<String> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         index: index,
-        indexName: indexName,
         type: type,
       ),
     );
@@ -527,7 +483,6 @@ class SearchResultAtProvider extends AutoDisposeFutureProvider<String> {
   bool operator ==(Object other) {
     return other is SearchResultAtProvider &&
         other.index == index &&
-        other.indexName == indexName &&
         other.type == type;
   }
 
@@ -535,7 +490,6 @@ class SearchResultAtProvider extends AutoDisposeFutureProvider<String> {
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, index.hashCode);
-    hash = _SystemHash.combine(hash, indexName.hashCode);
     hash = _SystemHash.combine(hash, type.hashCode);
 
     return _SystemHash.finish(hash);
@@ -546,11 +500,8 @@ mixin SearchResultAtRef on AutoDisposeFutureProviderRef<String> {
   /// The parameter `index` of this provider.
   int get index;
 
-  /// The parameter `indexName` of this provider.
-  String get indexName;
-
   /// The parameter `type` of this provider.
-  InvalidType get type;
+  String get type;
 }
 
 class _SearchResultAtProviderElement
@@ -560,175 +511,10 @@ class _SearchResultAtProviderElement
   @override
   int get index => (origin as SearchResultAtProvider).index;
   @override
-  String get indexName => (origin as SearchResultAtProvider).indexName;
-  @override
-  InvalidType get type => (origin as SearchResultAtProvider).type;
+  String get type => (origin as SearchResultAtProvider).type;
 }
 
-String _$searchResultFacetCountHash() =>
-    r'b06fa8a33da53bd3b5ff709e0b92a470c20605ba';
-
-/// See also [searchResultFacetCount].
-@ProviderFor(searchResultFacetCount)
-const searchResultFacetCountProvider = SearchResultFacetCountFamily();
-
-/// See also [searchResultFacetCount].
-class SearchResultFacetCountFamily extends Family<AsyncValue<int>> {
-  /// See also [searchResultFacetCount].
-  const SearchResultFacetCountFamily();
-
-  /// See also [searchResultFacetCount].
-  SearchResultFacetCountProvider call(
-    InvalidType filter,
-    String indexName,
-    InvalidType type,
-  ) {
-    return SearchResultFacetCountProvider(
-      filter,
-      indexName,
-      type,
-    );
-  }
-
-  @override
-  SearchResultFacetCountProvider getProviderOverride(
-    covariant SearchResultFacetCountProvider provider,
-  ) {
-    return call(
-      provider.filter,
-      provider.indexName,
-      provider.type,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'searchResultFacetCountProvider';
-}
-
-/// See also [searchResultFacetCount].
-class SearchResultFacetCountProvider extends AutoDisposeFutureProvider<int> {
-  /// See also [searchResultFacetCount].
-  SearchResultFacetCountProvider(
-    InvalidType filter,
-    String indexName,
-    InvalidType type,
-  ) : this._internal(
-          (ref) => searchResultFacetCount(
-            ref as SearchResultFacetCountRef,
-            filter,
-            indexName,
-            type,
-          ),
-          from: searchResultFacetCountProvider,
-          name: r'searchResultFacetCountProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$searchResultFacetCountHash,
-          dependencies: SearchResultFacetCountFamily._dependencies,
-          allTransitiveDependencies:
-              SearchResultFacetCountFamily._allTransitiveDependencies,
-          filter: filter,
-          indexName: indexName,
-          type: type,
-        );
-
-  SearchResultFacetCountProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.filter,
-    required this.indexName,
-    required this.type,
-  }) : super.internal();
-
-  final InvalidType filter;
-  final String indexName;
-  final InvalidType type;
-
-  @override
-  Override overrideWith(
-    FutureOr<int> Function(SearchResultFacetCountRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: SearchResultFacetCountProvider._internal(
-        (ref) => create(ref as SearchResultFacetCountRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        filter: filter,
-        indexName: indexName,
-        type: type,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<int> createElement() {
-    return _SearchResultFacetCountProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is SearchResultFacetCountProvider &&
-        other.filter == filter &&
-        other.indexName == indexName &&
-        other.type == type;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, filter.hashCode);
-    hash = _SystemHash.combine(hash, indexName.hashCode);
-    hash = _SystemHash.combine(hash, type.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin SearchResultFacetCountRef on AutoDisposeFutureProviderRef<int> {
-  /// The parameter `filter` of this provider.
-  InvalidType get filter;
-
-  /// The parameter `indexName` of this provider.
-  String get indexName;
-
-  /// The parameter `type` of this provider.
-  InvalidType get type;
-}
-
-class _SearchResultFacetCountProviderElement
-    extends AutoDisposeFutureProviderElement<int>
-    with SearchResultFacetCountRef {
-  _SearchResultFacetCountProviderElement(super.provider);
-
-  @override
-  InvalidType get filter => (origin as SearchResultFacetCountProvider).filter;
-  @override
-  String get indexName => (origin as SearchResultFacetCountProvider).indexName;
-  @override
-  InvalidType get type => (origin as SearchResultFacetCountProvider).type;
-}
-
-String _$searchResultCountHash() => r'f64ca4cc6793c3ad070f3f077ed0af541c6201a9';
+String _$searchResultCountHash() => r'408fcb21ac3876979c09343967744550a0d9f5f4';
 
 /// See also [searchResultCount].
 @ProviderFor(searchResultCount)
@@ -741,11 +527,9 @@ class SearchResultCountFamily extends Family<AsyncValue<int>> {
 
   /// See also [searchResultCount].
   SearchResultCountProvider call(
-    String indexName,
-    InvalidType type,
+    String type,
   ) {
     return SearchResultCountProvider(
-      indexName,
       type,
     );
   }
@@ -755,7 +539,6 @@ class SearchResultCountFamily extends Family<AsyncValue<int>> {
     covariant SearchResultCountProvider provider,
   ) {
     return call(
-      provider.indexName,
       provider.type,
     );
   }
@@ -779,12 +562,10 @@ class SearchResultCountFamily extends Family<AsyncValue<int>> {
 class SearchResultCountProvider extends AutoDisposeFutureProvider<int> {
   /// See also [searchResultCount].
   SearchResultCountProvider(
-    String indexName,
-    InvalidType type,
+    String type,
   ) : this._internal(
           (ref) => searchResultCount(
             ref as SearchResultCountRef,
-            indexName,
             type,
           ),
           from: searchResultCountProvider,
@@ -796,7 +577,6 @@ class SearchResultCountProvider extends AutoDisposeFutureProvider<int> {
           dependencies: SearchResultCountFamily._dependencies,
           allTransitiveDependencies:
               SearchResultCountFamily._allTransitiveDependencies,
-          indexName: indexName,
           type: type,
         );
 
@@ -807,12 +587,10 @@ class SearchResultCountProvider extends AutoDisposeFutureProvider<int> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.indexName,
     required this.type,
   }) : super.internal();
 
-  final String indexName;
-  final InvalidType type;
+  final String type;
 
   @override
   Override overrideWith(
@@ -827,7 +605,6 @@ class SearchResultCountProvider extends AutoDisposeFutureProvider<int> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        indexName: indexName,
         type: type,
       ),
     );
@@ -840,15 +617,12 @@ class SearchResultCountProvider extends AutoDisposeFutureProvider<int> {
 
   @override
   bool operator ==(Object other) {
-    return other is SearchResultCountProvider &&
-        other.indexName == indexName &&
-        other.type == type;
+    return other is SearchResultCountProvider && other.type == type;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, indexName.hashCode);
     hash = _SystemHash.combine(hash, type.hashCode);
 
     return _SystemHash.finish(hash);
@@ -856,11 +630,8 @@ class SearchResultCountProvider extends AutoDisposeFutureProvider<int> {
 }
 
 mixin SearchResultCountRef on AutoDisposeFutureProviderRef<int> {
-  /// The parameter `indexName` of this provider.
-  String get indexName;
-
   /// The parameter `type` of this provider.
-  InvalidType get type;
+  String get type;
 }
 
 class _SearchResultCountProviderElement
@@ -868,12 +639,212 @@ class _SearchResultCountProviderElement
   _SearchResultCountProviderElement(super.provider);
 
   @override
-  String get indexName => (origin as SearchResultCountProvider).indexName;
-  @override
-  InvalidType get type => (origin as SearchResultCountProvider).type;
+  String get type => (origin as SearchResultCountProvider).type;
 }
 
-String _$searchTextStateHash() => r'6a67370821eb82dfcbda2be6903b735ef2fee35d';
+String _$getAllChildItemsHash() => r'1d99ebe470ee5dc9d5d20954debb305c41e45675';
+
+/// See also [getAllChildItems].
+@ProviderFor(getAllChildItems)
+final getAllChildItemsProvider = FutureProvider<List<ChildItem>>.internal(
+  getAllChildItems,
+  name: r'getAllChildItemsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getAllChildItemsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetAllChildItemsRef = FutureProviderRef<List<ChildItem>>;
+String _$getAllResourcesHash() => r'14fac69abc0fe23703293adb33e6e0acb436a162';
+
+/// See also [getAllResources].
+@ProviderFor(getAllResources)
+final getAllResourcesProvider = AutoDisposeFutureProvider<List<Item>>.internal(
+  getAllResources,
+  name: r'getAllResourcesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getAllResourcesHash,
+  dependencies: const <ProviderOrFamily>[],
+  allTransitiveDependencies: const <ProviderOrFamily>{},
+);
+
+typedef GetAllResourcesRef = AutoDisposeFutureProviderRef<List<Item>>;
+String _$getResourceTypeHash() => r'765d6d1e0993e85fe51002d3fb193da3df3860cd';
+
+/// See also [getResourceType].
+@ProviderFor(getResourceType)
+final getResourceTypeProvider = AutoDisposeProvider<String>.internal(
+  getResourceType,
+  name: r'getResourceTypeProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getResourceTypeHash,
+  dependencies: const <ProviderOrFamily>[],
+  allTransitiveDependencies: const <ProviderOrFamily>{},
+);
+
+typedef GetResourceTypeRef = AutoDisposeProviderRef<String>;
+String _$resourcesSearchResultAtHash() =>
+    r'cd12da7058338d45b101e283d8213c88902e7778';
+
+/// See also [resourcesSearchResultAt].
+@ProviderFor(resourcesSearchResultAt)
+const resourcesSearchResultAtProvider = ResourcesSearchResultAtFamily();
+
+/// See also [resourcesSearchResultAt].
+class ResourcesSearchResultAtFamily extends Family<AsyncValue<Item>> {
+  /// See also [resourcesSearchResultAt].
+  const ResourcesSearchResultAtFamily();
+
+  /// See also [resourcesSearchResultAt].
+  ResourcesSearchResultAtProvider call(
+    int index,
+  ) {
+    return ResourcesSearchResultAtProvider(
+      index,
+    );
+  }
+
+  @override
+  ResourcesSearchResultAtProvider getProviderOverride(
+    covariant ResourcesSearchResultAtProvider provider,
+  ) {
+    return call(
+      provider.index,
+    );
+  }
+
+  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
+    getResourceTypeProvider,
+    getAllResourcesProvider
+  ];
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
+      <ProviderOrFamily>{
+    getResourceTypeProvider,
+    ...?getResourceTypeProvider.allTransitiveDependencies,
+    getAllResourcesProvider,
+    ...?getAllResourcesProvider.allTransitiveDependencies
+  };
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'resourcesSearchResultAtProvider';
+}
+
+/// See also [resourcesSearchResultAt].
+class ResourcesSearchResultAtProvider extends AutoDisposeFutureProvider<Item> {
+  /// See also [resourcesSearchResultAt].
+  ResourcesSearchResultAtProvider(
+    int index,
+  ) : this._internal(
+          (ref) => resourcesSearchResultAt(
+            ref as ResourcesSearchResultAtRef,
+            index,
+          ),
+          from: resourcesSearchResultAtProvider,
+          name: r'resourcesSearchResultAtProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$resourcesSearchResultAtHash,
+          dependencies: ResourcesSearchResultAtFamily._dependencies,
+          allTransitiveDependencies:
+              ResourcesSearchResultAtFamily._allTransitiveDependencies,
+          index: index,
+        );
+
+  ResourcesSearchResultAtProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.index,
+  }) : super.internal();
+
+  final int index;
+
+  @override
+  Override overrideWith(
+    FutureOr<Item> Function(ResourcesSearchResultAtRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ResourcesSearchResultAtProvider._internal(
+        (ref) => create(ref as ResourcesSearchResultAtRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        index: index,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Item> createElement() {
+    return _ResourcesSearchResultAtProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ResourcesSearchResultAtProvider && other.index == index;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, index.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ResourcesSearchResultAtRef on AutoDisposeFutureProviderRef<Item> {
+  /// The parameter `index` of this provider.
+  int get index;
+}
+
+class _ResourcesSearchResultAtProviderElement
+    extends AutoDisposeFutureProviderElement<Item>
+    with ResourcesSearchResultAtRef {
+  _ResourcesSearchResultAtProviderElement(super.provider);
+
+  @override
+  int get index => (origin as ResourcesSearchResultAtProvider).index;
+}
+
+String _$resourcesCountHash() => r'd4fad0f0448911b5479b5fca9deda9ff419938a5';
+
+/// See also [resourcesCount].
+@ProviderFor(resourcesCount)
+final resourcesCountProvider = AutoDisposeFutureProvider<int>.internal(
+  resourcesCount,
+  name: r'resourcesCountProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$resourcesCountHash,
+  dependencies: <ProviderOrFamily>[getResourceTypeProvider],
+  allTransitiveDependencies: <ProviderOrFamily>{
+    getResourceTypeProvider,
+    ...?getResourceTypeProvider.allTransitiveDependencies
+  },
+);
+
+typedef ResourcesCountRef = AutoDisposeFutureProviderRef<int>;
+String _$searchTextStateHash() => r'f737a460b6163e08bcf8730a7764a923adff0ede';
 
 /// See also [SearchTextState].
 @ProviderFor(SearchTextState)
@@ -884,18 +855,18 @@ final searchTextStateProvider =
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$searchTextStateHash,
-  dependencies: const <ProviderOrFamily>[],
-  allTransitiveDependencies: const <ProviderOrFamily>{},
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
 
 typedef _$SearchTextState = AutoDisposeNotifier<String>;
 String _$searchFilterManagerHash() =>
-    r'f008d186c2c8e1a260ac99a989c7b8c90750e663';
+    r'3dc4f85688bb659b137594ff442a95ad23f04069';
 
 /// See also [SearchFilterManager].
 @ProviderFor(SearchFilterManager)
 final searchFilterManagerProvider = AutoDisposeNotifierProvider<
-    SearchFilterManager, SearchManagerState>.internal(
+    SearchFilterManager, SearchFilterManagerState>.internal(
   SearchFilterManager.new,
   name: r'searchFilterManagerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -905,6 +876,6 @@ final searchFilterManagerProvider = AutoDisposeNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$SearchFilterManager = AutoDisposeNotifier<SearchManagerState>;
+typedef _$SearchFilterManager = AutoDisposeNotifier<SearchFilterManagerState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
