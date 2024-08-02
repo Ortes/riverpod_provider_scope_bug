@@ -22,7 +22,7 @@ final searchTextDebouncedProvider = AutoDisposeFutureProvider<String>.internal(
 );
 
 typedef SearchTextDebouncedRef = AutoDisposeFutureProviderRef<String>;
-String _$algoliaSearchHash() => r'e2ad6920e90d263c2ca5344e13498592d0d1346d';
+String _$algoliaSearchHash() => r'143d1d790ca43781d3fe827a62212792c40c7cba';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -57,13 +57,11 @@ class _AlgoliaSearchFamily extends Family<AsyncValue<SearchResponse>> {
   /// See also [_algoliaSearch].
   _AlgoliaSearchProvider call(
     String searchText,
-    SearchFilterManagerState searchFilterManagerState,
     int page,
     String type,
   ) {
     return _AlgoliaSearchProvider(
       searchText,
-      searchFilterManagerState,
       page,
       type,
     );
@@ -75,7 +73,6 @@ class _AlgoliaSearchFamily extends Family<AsyncValue<SearchResponse>> {
   ) {
     return call(
       provider.searchText,
-      provider.searchFilterManagerState,
       provider.page,
       provider.type,
     );
@@ -101,14 +98,12 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
   /// See also [_algoliaSearch].
   _AlgoliaSearchProvider(
     String searchText,
-    SearchFilterManagerState searchFilterManagerState,
     int page,
     String type,
   ) : this._internal(
           (ref) => _algoliaSearch(
             ref as _AlgoliaSearchRef,
             searchText,
-            searchFilterManagerState,
             page,
             type,
           ),
@@ -122,7 +117,6 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
           allTransitiveDependencies:
               _AlgoliaSearchFamily._allTransitiveDependencies,
           searchText: searchText,
-          searchFilterManagerState: searchFilterManagerState,
           page: page,
           type: type,
         );
@@ -135,13 +129,11 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.searchText,
-    required this.searchFilterManagerState,
     required this.page,
     required this.type,
   }) : super.internal();
 
   final String searchText;
-  final SearchFilterManagerState searchFilterManagerState;
   final int page;
   final String type;
 
@@ -159,7 +151,6 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         searchText: searchText,
-        searchFilterManagerState: searchFilterManagerState,
         page: page,
         type: type,
       ),
@@ -175,7 +166,6 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
   bool operator ==(Object other) {
     return other is _AlgoliaSearchProvider &&
         other.searchText == searchText &&
-        other.searchFilterManagerState == searchFilterManagerState &&
         other.page == page &&
         other.type == type;
   }
@@ -184,7 +174,6 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, searchText.hashCode);
-    hash = _SystemHash.combine(hash, searchFilterManagerState.hashCode);
     hash = _SystemHash.combine(hash, page.hashCode);
     hash = _SystemHash.combine(hash, type.hashCode);
 
@@ -195,9 +184,6 @@ class _AlgoliaSearchProvider extends FutureProvider<SearchResponse> {
 mixin _AlgoliaSearchRef on FutureProviderRef<SearchResponse> {
   /// The parameter `searchText` of this provider.
   String get searchText;
-
-  /// The parameter `searchFilterManagerState` of this provider.
-  SearchFilterManagerState get searchFilterManagerState;
 
   /// The parameter `page` of this provider.
   int get page;
@@ -213,16 +199,13 @@ class _AlgoliaSearchProviderElement
   @override
   String get searchText => (origin as _AlgoliaSearchProvider).searchText;
   @override
-  SearchFilterManagerState get searchFilterManagerState =>
-      (origin as _AlgoliaSearchProvider).searchFilterManagerState;
-  @override
   int get page => (origin as _AlgoliaSearchProvider).page;
   @override
   String get type => (origin as _AlgoliaSearchProvider).type;
 }
 
 String _$searchResponsePageHash() =>
-    r'a4310124b16b922702aa63d87136c999019397d6';
+    r'1d71367bb1841147b199452c785b942c3e27e3dd';
 
 /// See also [_searchResponsePage].
 @ProviderFor(_searchResponsePage)
@@ -860,22 +843,5 @@ final searchTextStateProvider =
 );
 
 typedef _$SearchTextState = AutoDisposeNotifier<String>;
-String _$searchFilterManagerHash() =>
-    r'3dc4f85688bb659b137594ff442a95ad23f04069';
-
-/// See also [SearchFilterManager].
-@ProviderFor(SearchFilterManager)
-final searchFilterManagerProvider = AutoDisposeNotifierProvider<
-    SearchFilterManager, SearchFilterManagerState>.internal(
-  SearchFilterManager.new,
-  name: r'searchFilterManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$searchFilterManagerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$SearchFilterManager = AutoDisposeNotifier<SearchFilterManagerState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

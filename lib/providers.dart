@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_providerscope_bug/utils.dart';
 
-part 'providers.freezed.dart';
 part 'providers.g.dart';
 
 const hitPerPage = 20;
@@ -45,23 +43,14 @@ FutureOr<String> searchTextDebounced(SearchTextDebouncedRef ref) {
   });
 }
 
-@riverpod
-class SearchFilterManager extends _$SearchFilterManager {
-  @override
-  SearchFilterManagerState build() {
-    return const SearchFilterManagerState();
-  }
-}
-
 @Riverpod(keepAlive: true)
 Future<SearchResponse> _algoliaSearch(
   _AlgoliaSearchRef ref,
   String searchText,
-  SearchFilterManagerState searchFilterManagerState,
   int page,
   String type,
 ) async {
-  print('searching for $searchText filters: $searchFilterManagerState');
+  print('searching for $searchText');
   await Future.delayed(const Duration(milliseconds: 200));
   return SearchResponse(["42"]);
 }
@@ -73,8 +62,7 @@ Future<SearchResponse> _searchResponsePage(
   String type,
 ) async {
   final searchText = await ref.watch(searchTextDebouncedProvider.future);
-  final searchManagerState = ref.watch(searchFilterManagerProvider);
-  return await ref.watch(_algoliaSearchProvider(searchText, searchManagerState, page, type).future);
+  return await ref.watch(_algoliaSearchProvider(searchText, page, type).future);
 }
 
 @riverpod
@@ -130,14 +118,4 @@ Future<Item> resourcesSearchResultAt(ResourcesSearchResultAtRef ref, int index) 
 Future<int> resourcesCount(ResourcesCountRef ref) async {
   final type = ref.watch(getResourceTypeProvider);
   return await ref.watch(searchResultCountProvider(type).future);
-}
-
-
-@freezed
-class SearchFilterManagerState with _$SearchFilterManagerState {
-  const SearchFilterManagerState._();
-
-  const factory SearchFilterManagerState({
-    @Default('') String filters,
-  }) = _SearchFilterManagerState;
 }
